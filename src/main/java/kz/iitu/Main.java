@@ -28,6 +28,11 @@ public class Main {
         for (City city2 : cities2) {
             System.out.println(city2.toString());
         }
+        System.out.println("===============");
+        List<String> list = webService.getListOfTimezone();
+        for (String s : list){
+            System.out.println(s);
+        }
         // write your code here
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 //        System.out.println(sdf.format(496803600));

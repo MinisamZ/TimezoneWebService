@@ -14,6 +14,14 @@ public class WebServiceTest {
     private TimeZoneDao timeZoneDao = new TimeZoneDao();
 
     @WebMethod
+    public String getString(String s) throws Exception {
+        if (s.length() < 7) {
+            return s;
+        } else
+            throw new Exception("more 7");
+    }
+
+    @WebMethod
     public List<City> getListCityByCode(String countryCodeLocal) {
         // требуется вырезать т.к подвергает программу логическим ошибкам
         return timeZoneDao.getListCityByCode(countryCodeLocal);
@@ -29,14 +37,6 @@ public class WebServiceTest {
             }
         }
         throw new Exception("Not found city");
-    }
-
-    @WebMethod
-    public String getString(String s) throws Exception {
-        if (s.length()<7) {
-            return s;
-        } else
-            throw new Exception("more 7");
     }
 
     @WebMethod
@@ -61,6 +61,21 @@ public class WebServiceTest {
             }
         }
         return result;
+    }
+
+    @WebMethod
+    public List<City> getListCity() {
+        return timeZoneDao.getListCity();
+    }
+
+    @WebMethod
+    public List<String> getListOfCountryCode() {
+        return timeZoneDao.getListOfCountryCode();
+    }
+
+    @WebMethod
+    public List<String> getListOfTimezone() {
+        return timeZoneDao.getListOfTimezone();
     }
 
 }

@@ -5,6 +5,7 @@ import kz.iitu.model.City;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TimeZoneDao {
     private static Statement stmt;
@@ -36,7 +37,7 @@ public class TimeZoneDao {
 
     public List<City> getListCity() {
         List<City> ret = new ArrayList<>();
-        String sql = "SELECT * FROM `timezone`";
+        String sql = "SELECT * FROM `timezone` ORDER BY `timezone`";
         Connection connection = dbUtil.getConnection();
         try {
             PreparedStatement prSt = connection.prepareStatement(sql);
@@ -54,6 +55,39 @@ public class TimeZoneDao {
             sqlEx.printStackTrace();
         }
         return ret;
+    }
+
+    public List<String> getListOfCountryCode() {
+        List<String> ret = new ArrayList<>();
+        String sql = "SELECT DISTINCT `country_code` FROM `timezone`;";
+        Connection connection = dbUtil.getConnection();
+        try {
+            PreparedStatement prSt = connection.prepareStatement(sql);
+            ResultSet resultSet = prSt.executeQuery();
+            while (resultSet.next()) {
+                ret.add(resultSet.getString("country_code"));
+            }
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+        return ret.stream().distinct().collect(Collectors.toList());
+    }
+
+    public List<String> getListOfTimezone() {
+        List<String> ret = new ArrayList<>();
+        String sql = "SELECT DISTINCT `timezone` FROM `timezone`;";
+        Connection connection = dbUtil.getConnection();
+        try {
+            PreparedStatement prSt = connection.prepareStatement(sql);
+            ResultSet resultSet = prSt.executeQuery();
+            while (resultSet.next()) {
+                String[] subStr = resultSet.getString("timezone").split("/");
+                ret.add(subStr[0]);
+            }
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+        return ret.stream().distinct().collect(Collectors.toList());
     }
 
     public void checkCon() {
