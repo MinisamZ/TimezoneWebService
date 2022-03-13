@@ -33,10 +33,10 @@ public class WebServiceTest {
 
     @WebMethod
     public String getString(String s) throws Exception {
-        if (s.equals("1")) {
+        if (s.length()<7) {
             return s;
         } else
-            throw new Exception("not 1");
+            throw new Exception("more 7");
     }
 
     @WebMethod
